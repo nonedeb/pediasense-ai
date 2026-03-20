@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="fw-bold mb-4">Student Dashboard</h2>
+<div class="row g-4 mb-4">
+  <div class="col-md-4"><div class="card border-0 shadow-sm rounded-4"><div class="card-body"><div class="text-muted">Average Quiz Score</div><div class="fs-2 fw-bold text-primary">{{ avg_score }}%</div></div></div></div>
+  <div class="col-md-4"><div class="card border-0 shadow-sm rounded-4"><div class="card-body"><div class="text-muted">Recent Quiz Attempts</div><div class="fs-2 fw-bold">{{ quiz_attempts|length }}</div></div></div></div>
+  <div class="col-md-4"><div class="card border-0 shadow-sm rounded-4"><div class="card-body"><div class="text-muted">Recent Case Attempts</div><div class="fs-2 fw-bold">{{ case_attempts|length }}</div></div></div></div>
+</div>
+{% endblock %}

@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 <h2 class="fw-bold mb-4">Import Users</h2>
-
 <div class="card border-0 shadow-sm rounded-4 mb-4">
   <div class="card-body">
     <form method="POST" enctype="multipart/form-data" class="row g-3">
@@ -13,85 +12,40 @@
           <option value="faculty" {% if selected_type == 'faculty' %}selected{% endif %}>Faculty List</option>
         </select>
       </div>
-
       <div class="col-md-5">
         <label class="form-label">Upload CSV File</label>
         <input type="file" name="file" class="form-control rounded-3" accept=".csv" required>
       </div>
-
       <div class="col-md-3 d-flex align-items-end">
         <button class="btn btn-primary w-100 rounded-3">Preview Import</button>
       </div>
     </form>
-
     <hr>
-    <div class="row g-3">
-      <div class="col-md-6">
-        <h6>Student Template</h6>
-        <code>name,section,program,contact_number,email</code>
-      </div>
-      <div class="col-md-6">
-        <h6>Faculty Template</h6>
-        <code>name,email,specialization,post_nominals,contact_number</code>
-      </div>
+    <div class="row">
+      <div class="col-md-6"><h6>Student Template</h6><code>name,section,program,contact_number,email</code></div>
+      <div class="col-md-6"><h6>Faculty Template</h6><code>name,email,specialization,post_nominals,contact_number</code></div>
     </div>
   </div>
 </div>
-
 {% if preview_mode and preview_rows %}
 <div class="card border-0 shadow-sm rounded-4">
   <div class="card-body">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <div>
-        <h5 class="mb-1">Preview</h5>
-        <p class="text-muted mb-0">Review the rows below before saving them into the database.</p>
-      </div>
+      <div><h5 class="mb-1">Preview</h5><p class="text-muted mb-0">Review before saving.</p></div>
       <div class="d-flex gap-2">
-        <form method="POST" action="{{ url_for('manager_import_users_cancel') }}">
-          <button class="btn btn-outline-secondary rounded-3">Cancel</button>
-        </form>
-        <form method="POST" action="{{ url_for('manager_import_users_confirm') }}">
-          <button class="btn btn-success rounded-3">Confirm Import</button>
-        </form>
+        <form method="POST" action="{{ url_for('manager_import_users_cancel') }}"><button class="btn btn-outline-secondary rounded-3">Cancel</button></form>
+        <form method="POST" action="{{ url_for('manager_import_users_confirm') }}"><button class="btn btn-success rounded-3">Confirm Import</button></form>
       </div>
     </div>
-
     <div class="table-responsive">
       <table class="table table-hover align-middle">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Section</th>
-            <th>Program</th>
-            <th>Specialization</th>
-            <th>Post-nominals</th>
-            <th>Contact</th>
-            <th>Status</th>
-          </tr>
-        </thead>
+        <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Role</th><th>Section</th><th>Program</th><th>Specialization</th><th>Post-nominals</th><th>Contact</th><th>Status</th></tr></thead>
         <tbody>
           {% for row in preview_rows %}
           <tr>
-            <td>{{ row.row_number }}</td>
-            <td>{{ row.name or '-' }}</td>
-            <td>{{ row.email or '-' }}</td>
-            <td><span class="badge text-bg-dark">{{ row.role }}</span></td>
-            <td>{{ row.section or '-' }}</td>
-            <td>{{ row.program or '-' }}</td>
-            <td>{{ row.specialization or '-' }}</td>
-            <td>{{ row.post_nominals or '-' }}</td>
-            <td>{{ row.contact_number or '-' }}</td>
-            <td>
-              {% if row.errors %}
-                <span class="badge text-bg-danger">Invalid</span>
-                <div class="small text-danger mt-1">{{ row.errors|join(', ') }}</div>
-              {% else %}
-                <span class="badge text-bg-success">Ready</span>
-              {% endif %}
-            </td>
+            <td>{{ row.row_number }}</td><td>{{ row.name or '-' }}</td><td>{{ row.email or '-' }}</td><td><span class="badge text-bg-dark">{{ row.role }}</span></td>
+            <td>{{ row.section or '-' }}</td><td>{{ row.program or '-' }}</td><td>{{ row.specialization or '-' }}</td><td>{{ row.post_nominals or '-' }}</td><td>{{ row.contact_number or '-' }}</td>
+            <td>{% if row.errors %}<span class="badge text-bg-danger">Invalid</span><div class="small text-danger mt-1">{{ row.errors|join(', ') }}</div>{% else %}<span class="badge text-bg-success">Ready</span>{% endif %}</td>
           </tr>
           {% endfor %}
         </tbody>

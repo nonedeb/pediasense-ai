@@ -1,28 +1,15 @@
-# PediaSense AI - Import Users Module (Production-Ready Starter)
+# PediaSense AI - Integrated V1
 
-## Features
-- CSV upload for students or faculty
-- Preview before confirm
-- Validation for required fields
-- Duplicate email prevention
-- Saves valid rows to database
-- Import logs
-- Cancel pending import safely
+Included:
+- Role-based login
+- Manager: import users, user CRUD, import logs, branding, reference docs
+- Student: dashboard, profile, quiz, quiz results, case analyzer, case history
+- Faculty: dashboard, students, quiz generator, quiz bank, analytics
 
-## Student CSV columns
-name,section,program,contact_number,email
+Demo accounts:
+- manager@pediasense.ai / Manager123!
+- faculty@pediasense.ai / Faculty123!
+- student@pediasense.ai / Student123!
 
-## Faculty CSV columns
-name,email,specialization,post_nominals,contact_number
-
-## Run locally
-```bash
-pip install -r requirements.txt
-python app.py
-```
-
-## Deploy on Render
-Start command:
-```bash
+Render start command:
 gunicorn app:app
-```

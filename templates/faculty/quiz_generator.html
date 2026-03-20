@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="fw-bold mb-4">Quiz Generator</h2>
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+  <div class="card-body">
+    <form method="POST" class="row g-3">
+      <div class="col-md-4"><label class="form-label">Topic</label><input name="topic" class="form-control rounded-3" placeholder="e.g. Dengue in children"></div>
+      <div class="col-md-2"><label class="form-label">Items</label><input name="num_items" type="number" min="1" max="20" value="5" class="form-control rounded-3"></div>
+      <div class="col-md-2"><label class="form-label">Difficulty</label><select name="difficulty" class="form-select rounded-3"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select></div>
+      <div class="col-md-4"><label class="form-label">Source Mode</label><select name="source_mode" class="form-select rounded-3"><option>NANDA only</option><option>NANDA + internal case library</option><option>NANDA + web support</option></select></div>
+      <div class="col-12"><button class="btn btn-primary rounded-3">Generate Draft Quiz</button></div>
+    </form>
+  </div>
+</div>
+{% if generated_questions %}
+<div class="card border-0 shadow-sm rounded-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0">Generated Draft</h5>
+      <form method="POST" action="{{ url_for('faculty_quiz_publish') }}"><button class="btn btn-success rounded-3">Publish to Quiz Bank</button></form>
+    </div>
+    {% for q in generated_questions %}
+    <div class="border rounded-4 p-3 mb-3">
+      <div class="fw-semibold">{{ loop.index }}. {{ q.question_text }}</div>
+      <ul class="mt-2 mb-1">
+        <li>A. {{ q.option_a }}</li><li>B. {{ q.option_b }}</li><li>C. {{ q.option_c }}</li><li>D. {{ q.option_d }}</li>
+      </ul>
+      <div class="small"><strong>Correct:</strong> {{ q.correct_answer }}</div>
+      <div class="small"><strong>Rationale:</strong> {{ q.rationale }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

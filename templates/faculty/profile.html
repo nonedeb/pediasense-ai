@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="fw-bold mb-4">Faculty Profile</h2>
+<div class="card border-0 shadow-sm rounded-4">
+  <div class="card-body">
+    <form method="POST" class="row g-3">
+      <div class="col-md-6"><label class="form-label">Name</label><input name="name" class="form-control rounded-3" value="{{ user.name }}"></div>
+      <div class="col-md-6"><label class="form-label">Email</label><input class="form-control rounded-3" value="{{ user.email }}" disabled></div>
+      <div class="col-md-4"><label class="form-label">Specialization</label><input name="specialization" class="form-control rounded-3" value="{{ user.specialization or '' }}"></div>
+      <div class="col-md-4"><label class="form-label">Post-nominals</label><input name="post_nominals" class="form-control rounded-3" value="{{ user.post_nominals or '' }}"></div>
+      <div class="col-md-4"><label class="form-label">Contact Number</label><input name="contact_number" class="form-control rounded-3" value="{{ user.contact_number or '' }}"></div>
+      <div class="col-12"><button class="btn btn-primary rounded-3">Save Profile</button></div>
+    </form>
+  </div>
+</div>
+{% endblock %}

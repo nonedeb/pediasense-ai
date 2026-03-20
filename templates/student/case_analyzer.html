@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="fw-bold mb-4">Case Analyzer</h2>
+<div class="card border-0 shadow-sm rounded-4">
+  <div class="card-body">
+    <form method="POST" class="row g-3">
+      <div class="col-12"><label class="form-label">Select Practice Case</label><select name="case_id" class="form-select rounded-3">{% for c in cases %}<option value="{{ c.id }}">{{ c.title }} — {{ c.topic }}</option>{% endfor %}</select></div>
+      <div class="col-12"><label class="form-label">Case Notes / Input Data</label><textarea name="input_data" class="form-control rounded-3" rows="4" required></textarea></div>
+      <div class="col-12"><label class="form-label">Selected Diagnosis</label><input name="selected_diagnosis" class="form-control rounded-3"></div>
+      <div class="col-12"><label class="form-label">Interventions</label><textarea name="interventions" class="form-control rounded-3" rows="3"></textarea></div>
+      <div class="col-12"><label class="form-label">Expected Outcomes</label><textarea name="outcomes" class="form-control rounded-3" rows="3"></textarea></div>
+      <div class="col-12"><button class="btn btn-primary rounded-3">Save Attempt</button></div>
+    </form>
+  </div>
+</div>
+{% endblock %}

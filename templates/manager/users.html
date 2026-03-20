@@ -1,34 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 class="fw-bold mb-4">Users</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-bold mb-0">Users</h2>
+  <a class="btn btn-primary rounded-3" href="{{ url_for('manager_user_create') }}">Add User</a>
+</div>
 <div class="card border-0 shadow-sm rounded-4">
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-hover align-middle">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Section</th>
-            <th>Program</th>
-            <th>Specialization</th>
-            <th>Contact</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Section</th><th>Program</th><th>Specialization</th><th>Status</th><th>Action</th></tr></thead>
         <tbody>
           {% for user in users %}
           <tr>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td><span class="badge text-bg-dark">{{ user.role }}</span></td>
-            <td>{{ user.section or '-' }}</td>
-            <td>{{ user.program or '-' }}</td>
-            <td>{{ user.specialization or '-' }}</td>
-            <td>{{ user.contact_number or '-' }}</td>
+            <td>{{ user.name }}</td><td>{{ user.email }}</td><td><span class="badge text-bg-dark">{{ user.role }}</span></td><td>{{ user.section or '-' }}</td><td>{{ user.program or '-' }}</td><td>{{ user.specialization or '-' }}</td><td>{{ user.status }}</td>
+            <td><div class="d-flex gap-2"><a class="btn btn-sm btn-outline-primary" href="{{ url_for('manager_user_edit', user_id=user.id) }}">Edit</a><form method="POST" action="{{ url_for('manager_user_delete', user_id=user.id) }}" onsubmit="return confirm('Delete this user?');"><button class="btn btn-sm btn-outline-danger">Delete</button></form></div></td>
           </tr>
           {% else %}
-          <tr><td colspan="7" class="text-center text-muted">No users found.</td></tr>
+          <tr><td colspan="8" class="text-center text-muted">No users found.</td></tr>
           {% endfor %}
         </tbody>
       </table>

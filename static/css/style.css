@@ -1,15 +1,4 @@
-body {
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
-}
-.card {
-  transition: transform 0.2s ease;
-}
-.card:hover {
-  transform: translateY(-2px);
-}
-code {
-  display: inline-block;
-  padding: 6px 8px;
-  background: #f8fafc;
-  border-radius: 10px;
-}
+body { font-family: Inter, 'Segoe UI', Arial, sans-serif; }
+.card { transition: transform .15s ease; }
+.card:hover { transform: translateY(-2px); }
+code { display:inline-block; padding:6px 8px; background:#f8fafc; border-radius:10px; color:#db2777; }

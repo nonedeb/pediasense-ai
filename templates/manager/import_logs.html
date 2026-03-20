@@ -3,32 +3,16 @@
 <h2 class="fw-bold mb-4">Import Logs</h2>
 <div class="card border-0 shadow-sm rounded-4">
   <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-hover align-middle">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>File</th>
-            <th>User Type</th>
-            <th>Imported</th>
-            <th>Skipped</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for log in logs %}
-          <tr>
-            <td>{{ log.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-            <td>{{ log.file_name }}</td>
-            <td>{{ log.user_type }}</td>
-            <td>{{ log.success_count }}</td>
-            <td>{{ log.error_count }}</td>
-          </tr>
-          {% else %}
-          <tr><td colspan="5" class="text-center text-muted">No import logs yet.</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+    <table class="table table-hover">
+      <thead><tr><th>Date</th><th>File</th><th>User Type</th><th>Imported</th><th>Skipped</th></tr></thead>
+      <tbody>
+        {% for log in logs %}
+        <tr><td>{{ log.created_at.strftime('%Y-%m-%d %H:%M') }}</td><td>{{ log.file_name }}</td><td>{{ log.user_type }}</td><td>{{ log.success_count }}</td><td>{{ log.error_count }}</td></tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">No import logs yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
 {% endblock %}

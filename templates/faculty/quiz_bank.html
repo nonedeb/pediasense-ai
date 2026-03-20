@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="fw-bold mb-4">Quiz Bank</h2>
+<div class="card border-0 shadow-sm rounded-4">
+  <div class="card-body">
+    <table class="table table-hover">
+      <thead><tr><th>Topic</th><th>Question</th><th>Difficulty</th><th>Published</th></tr></thead>
+      <tbody>
+        {% for q in questions %}
+        <tr><td>{{ q.topic }}</td><td>{{ q.question_text }}</td><td>{{ q.difficulty_level or '-' }}</td><td>{{ 'Yes' if q.published else 'No' }}</td></tr>
+        {% else %}
+        <tr><td colspan="4" class="text-center text-muted">No quiz questions found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
