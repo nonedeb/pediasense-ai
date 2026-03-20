@@ -1,0 +1,5 @@
+
+body { background: #f6f8fc; }
+.hero { background: linear-gradient(135deg, #eaf2ff, #ffffff); border: 1px solid #dfe8ff; }
+.card { border: 0; }
+.result-box, .quiz-card { background: #f8fbff; border: 1px solid #dbe7ff; border-radius: 1rem; padding: 1rem; }

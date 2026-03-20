@@ -1,0 +1,61 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-5">
+    <div class="card rounded-4 shadow-sm">
+      <div class="card-body">
+        <h2 class="fw-bold">Case Analyzer</h2>
+        <form method="post" class="row g-3">
+          <div class="col-md-6"><label class="form-label">Age</label><input class="form-control" name="age" required></div>
+          <div class="col-md-6"><label class="form-label">Sex</label><input class="form-control" name="sex"></div>
+          <div class="col-12"><label class="form-label">Chief Complaint</label><input class="form-control" name="chief_complaint" required></div>
+          <div class="col-12"><label class="form-label">Vital Signs</label><textarea class="form-control" name="vitals" rows="2"></textarea></div>
+          <div class="col-12"><label class="form-label">Assessment Findings</label><textarea class="form-control" name="assessment" rows="5" required></textarea></div>
+          <div class="col-12"><label class="form-label">Labs</label><textarea class="form-control" name="labs" rows="2"></textarea></div>
+          <div class="col-12"><label class="form-label">Self Score (0-100)</label><input class="form-control" name="self_score" type="number" min="0" max="100" value="0"></div>
+          <div class="col-12"><button class="btn btn-primary w-100">Analyze and Save</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-7">
+    <div class="card rounded-4 shadow-sm">
+      <div class="card-body">
+        <h3 class="fw-bold">Result</h3>
+        {% if result %}
+          <p><span class="badge bg-primary">{{ result.topic }}</span> <span class="badge bg-secondary">{{ result.mode }}</span> <span class="badge bg-info text-dark">Confidence {{ result.confidence }}%</span></p>
+          <h5>Top Diagnosis</h5>
+          <div class="result-box">{{ result.top_diagnosis }}</div>
+          {% if result.related_diagnoses %}
+            <h5 class="mt-3">Related Diagnoses</h5>
+            <ul>{% for d in result.related_diagnoses %}<li>{{ d }}</li>{% endfor %}</ul>
+          {% endif %}
+          <h5>Interventions</h5>
+          <ul>{% for item in result.interventions %}<li>{{ item }}</li>{% endfor %}</ul>
+          <h5>Expected Outcomes</h5>
+          <ul>{% for item in result.outcomes %}<li>{{ item }}</li>{% endfor %}</ul>
+          <h5>Rationale</h5>
+          <div class="result-box">{{ result.rationale }}</div>
+
+          {% if result.ai_explanation %}
+            <h5 class="mt-3">OpenAI-Assisted Explanation</h5>
+            <div class="result-box">{{ result.ai_explanation.explanation }}</div>
+            {% if result.ai_explanation.caregiver_teaching %}
+              <h6 class="mt-3">Caregiver Teaching</h6>
+              <div class="result-box">{{ result.ai_explanation.caregiver_teaching }}</div>
+            {% endif %}
+            {% if result.ai_explanation.safety_notes %}
+              <h6 class="mt-3">Safety Notes</h6>
+              <div class="result-box">{{ result.ai_explanation.safety_notes }}</div>
+            {% endif %}
+          {% endif %}
+        {% else %}
+          <p class="text-muted">Submit a case to view the analysis.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

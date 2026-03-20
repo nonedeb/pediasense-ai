@@ -1,0 +1,37 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="card rounded-4 shadow-sm">
+  <div class="card-body">
+    <h2 class="fw-bold">Quiz Mode</h2>
+    <form method="post">
+      {% for q in questions %}
+        <div class="quiz-card mb-4">
+          <div class="fw-semibold mb-2">{{ loop.index }}. {{ q.stem }}</div>
+          {% for opt in ['A','B','C','D'] %}
+            {% set text = q['option_' + opt.lower()] %}
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="q_{{ q.id }}" value="{{ opt }}" id="q{{q.id}}{{opt}}" required>
+              <label class="form-check-label" for="q{{q.id}}{{opt}}">{{ opt }}. {{ text }}</label>
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      <button class="btn btn-primary">Submit Quiz</button>
+    </form>
+
+    {% if result %}
+      <hr>
+      <h4 class="fw-bold">Quiz Feedback</h4>
+      {% for item in result %}
+        <div class="result-box mb-3">
+          <div class="fw-semibold">{{ item.stem }}</div>
+          <div>Your answer: <strong>{{ item.chosen or 'No answer' }}</strong> | Correct: <strong>{{ item.correct }}</strong></div>
+          <div class="{{ 'text-success' if item.is_correct else 'text-danger' }}">{{ 'Correct' if item.is_correct else 'Incorrect' }}</div>
+          <div class="small mt-2">{{ item.rationale }}</div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

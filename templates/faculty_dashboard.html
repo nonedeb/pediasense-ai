@@ -1,0 +1,68 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4 mb-4">
+  <div class="col-md-3"><div class="card rounded-4 shadow-sm"><div class="card-body"><div class="text-muted">Students</div><div class="display-6 fw-bold">{{ total_students }}</div></div></div></div>
+  <div class="col-md-3"><div class="card rounded-4 shadow-sm"><div class="card-body"><div class="text-muted">Case Attempts</div><div class="display-6 fw-bold">{{ total_attempts }}</div></div></div></div>
+  <div class="col-md-3"><div class="card rounded-4 shadow-sm"><div class="card-body"><div class="text-muted">Avg Self Score</div><div class="display-6 fw-bold">{{ avg_self_score }}</div></div></div></div>
+  <div class="col-md-3"><div class="card rounded-4 shadow-sm"><div class="card-body"><div class="text-muted">Avg Quiz %</div><div class="display-6 fw-bold">{{ quiz_average }}</div></div></div></div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card rounded-4 shadow-sm">
+      <div class="card-body">
+        <h4 class="fw-bold">Case Topics</h4>
+        {% if topic_counts %}
+          <ul class="mb-0">
+          {% for row in topic_counts %}
+            <li>{{ row.topic }} — {{ row.count }}</li>
+          {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted">No data yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card rounded-4 shadow-sm">
+      <div class="card-body">
+        <h4 class="fw-bold">Students Needing Support (&lt;75 avg self-score)</h4>
+        {% if low_students %}
+          <ul class="mb-0">
+          {% for row in low_students %}
+            <li>{{ row.name }} — {{ row.avg }}</li>
+          {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted">No students currently flagged.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card rounded-4 shadow-sm mt-4">
+  <div class="card-body">
+    <h4 class="fw-bold">Recent Attempts</h4>
+    <div class="table-responsive">
+      <table class="table">
+        <thead><tr><th>Student</th><th>Topic</th><th>Diagnosis</th><th>Mode</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for a in recent_attempts %}
+          <tr>
+            <td>{{ a.user.full_name }}</td>
+            <td>{{ a.topic }}</td>
+            <td>{{ a.top_diagnosis }}</td>
+            <td>{{ a.ai_mode }}</td>
+            <td>{{ a.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

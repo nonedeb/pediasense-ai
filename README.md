@@ -1,12 +1,19 @@
-# PediaSense AI - Web Deployment Version
 
-This version is ready for **web deployment** and supports a **hosted PostgreSQL database**.
+# PediaSense AI Portal
 
-## What changed
-- Uses **Flask + SQLAlchemy**
-- Works with **hosted PostgreSQL** through `DATABASE_URL`
-- Includes `render.yaml` for one-click deployment on Render
-- Falls back to local SQLite only if `DATABASE_URL` is not set
+A functional Flask website for pediatric nursing education with:
+- role-based login: **student**, **faculty**, **manager**
+- NANDA-aligned case analyzer
+- quiz mode
+- faculty analytics
+- manager panel for users and quiz questions
+- optional OpenAI-assisted explanations
+- Supabase/Postgres-ready deployment
+
+## Demo accounts
+- Student: `student@pediasense.ai` / `Student123!`
+- Faculty: `faculty@pediasense.ai` / `Faculty123!`
+- Manager: `manager@pediasense.ai` / `Manager123!`
 
 ## Local run
 ```bash
@@ -15,40 +22,25 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python3 app.py
 ```
-Open `http://127.0.0.1:5001`
 
-## Deploy on Render with Supabase / Neon / Render Postgres
-1. Push this folder to GitHub.
-2. Create a hosted PostgreSQL database.
-3. Copy the database connection string.
-4. Create a new **Web Service** on Render from your GitHub repo.
-5. Render will read `render.yaml`.
-6. Set `DATABASE_URL` in Render to your hosted PostgreSQL URL.
-7. Deploy.
-
-## Suggested hosted database options
-- Supabase Postgres
-- Neon Postgres
-- Render Postgres
-
-## Example environment values
-```env
-SECRET_KEY=your-random-secret
-DATABASE_URL=postgresql://username:password@host:5432/database
+## Render deployment
+Start command:
+```bash
+gunicorn app:app
 ```
 
-## Notes for defense
-You can truthfully say:
-- the system is fully web-based
-- the database can be cloud-hosted
-- users can access the app through a link
-- student attempts persist in an online database
+## Environment variables
+Set these in Render:
+- `SECRET_KEY` = your-random-secret
+- `DATABASE_URL` = your Supabase Postgres connection string
+- `OPENAI_API_KEY` = optional, only if you want OpenAI-assisted explanations
+- `OPENAI_MODEL` = optional, default `gpt-4.1-mini`
 
-## Main routes
-- `/` - app UI
-- `/api/analyze-case` - analyze pediatric case
-- `/api/save-attempt` - save student attempt
-- `/api/dashboard/summary` - dashboard summary
-- `/api/analytics/topics` - topic averages
-- `/api/analytics/errors` - error distribution
-- `/api/cases` - case library
+## Supabase notes
+Supabase provides the Postgres connection string in the dashboard under **Connect**. For SQLAlchemy, the connection string should use the `postgresql://` scheme. citeturn123075search1turn123075search9
+
+## OpenAI notes
+The app keeps the API key on the server side and uses the Responses API path through the Python SDK for optional explanatory text. Responses is part of the current official OpenAI API reference. citeturn123075search0
+
+## Important design note
+Diagnosis selection is intentionally based on a curated NANDA-aligned library inside the app. Optional OpenAI output is used only to enrich explanation, caregiver teaching, and safety notes.

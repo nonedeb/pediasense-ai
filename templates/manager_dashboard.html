@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card rounded-4 shadow-sm mb-4">
+      <div class="card-body">
+        <h3 class="fw-bold">Create User</h3>
+        <form method="post" action="{{ url_for('manager_add_user') }}" class="row g-3">
+          <div class="col-12"><input class="form-control" name="full_name" placeholder="Full name" required></div>
+          <div class="col-12"><input class="form-control" name="email" type="email" placeholder="Email" required></div>
+          <div class="col-md-6"><input class="form-control" name="password" placeholder="Temporary password" value="Password123!"></div>
+          <div class="col-md-6"><input class="form-control" name="section" placeholder="Section"></div>
+          <div class="col-12">
+            <select class="form-select" name="role">
+              <option value="student">Student</option>
+              <option value="faculty">Faculty</option>
+              <option value="manager">Manager</option>
+            </select>
+          </div>
+          <div class="col-12"><button class="btn btn-primary w-100">Add User</button></div>
+        </form>
+      </div>
+    </div>
+
+    <div class="card rounded-4 shadow-sm">
+      <div class="card-body">
+        <h3 class="fw-bold">Add Quiz Question</h3>
+        <form method="post" action="{{ url_for('manager_add_question') }}" class="row g-3">
+          <div class="col-12"><input class="form-control" name="topic" placeholder="Topic" required></div>
+          <div class="col-12"><textarea class="form-control" name="stem" placeholder="Question stem" rows="3" required></textarea></div>
+          <div class="col-md-6"><input class="form-control" name="option_a" placeholder="Option A" required></div>
+          <div class="col-md-6"><input class="form-control" name="option_b" placeholder="Option B" required></div>
+          <div class="col-md-6"><input class="form-control" name="option_c" placeholder="Option C" required></div>
+          <div class="col-md-6"><input class="form-control" name="option_d" placeholder="Option D" required></div>
+          <div class="col-md-6">
+            <select class="form-select" name="correct_option">
+              <option>A</option><option>B</option><option>C</option><option>D</option>
+            </select>
+          </div>
+          <div class="col-12"><textarea class="form-control" name="rationale" placeholder="Rationale" rows="3" required></textarea></div>
+          <div class="col-12"><button class="btn btn-outline-primary w-100">Add Question</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card rounded-4 shadow-sm mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3 class="fw-bold mb-0">User Account Management</h3>
+          <span class="badge text-bg-primary">Manager Controls</span>
+        </div>
+        <p class="text-muted">Add, edit, reset password, change role, or delete accounts for students, faculty, and managers.</p>
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+              <tr><th style="min-width:180px;">Name</th><th style="min-width:180px;">Email</th><th>Role</th><th>Section</th><th style="min-width:230px;">Actions</th></tr>
+            </thead>
+            <tbody>
+            {% for u in users %}
+              <tr>
+                <form method="post" action="{{ url_for('manager_edit_user', user_id=u.id) }}">
+                  <td><input class="form-control form-control-sm" name="full_name" value="{{ u.full_name }}" required></td>
+                  <td><input class="form-control form-control-sm" name="email" type="email" value="{{ u.email }}" required></td>
+                  <td>
+                    <select class="form-select form-select-sm" name="role">
+                      <option value="student" {% if u.role=='student' %}selected{% endif %}>Student</option>
+                      <option value="faculty" {% if u.role=='faculty' %}selected{% endif %}>Faculty</option>
+                      <option value="manager" {% if u.role=='manager' %}selected{% endif %}>Manager</option>
+                    </select>
+                  </td>
+                  <td><input class="form-control form-control-sm" name="section" value="{{ u.section or '' }}"></td>
+                  <td>
+                    <div class="d-flex flex-column gap-2">
+                      <input class="form-control form-control-sm" name="password" placeholder="New password (optional)">
+                      <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-primary">Save</button>
+                </form>
+                        <form method="post" action="{{ url_for('manager_delete_user', user_id=u.id) }}" onsubmit="return confirm('Delete this account? This action cannot be undone.');">
+                          <button class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card rounded-4 shadow-sm">
+      <div class="card-body">
+        <h3 class="fw-bold">Quiz Questions</h3>
+        <ol class="mb-0">
+        {% for q in questions %}
+          <li class="mb-3"><strong>{{ q.topic }}</strong> — {{ q.stem }}</li>
+        {% endfor %}
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

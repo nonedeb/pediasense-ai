@@ -1,0 +1,39 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-5 mb-4 rounded-4 hero">
+  <div class="row align-items-center g-4">
+    <div class="col-lg-8">
+      <span class="badge bg-light text-primary mb-3">Web-based Pediatric Nursing Decision Support</span>
+      <h1 class="display-5 fw-bold">PediaSense AI Portal</h1>
+      <p class="lead">
+        A functional pediatric nursing education website with role-based access for <strong>student</strong>, <strong>faculty</strong>, and <strong>manager</strong>.
+        It includes case analysis, quiz mode, analytics, and a NANDA-aligned rule engine with optional OpenAI-assisted explanations.
+      </p>
+      <div class="d-flex gap-2 flex-wrap">
+        <a class="btn btn-primary btn-lg" href="{{ url_for('login') }}">Login</a>
+        <a class="btn btn-outline-primary btn-lg" href="{{ url_for('register') }}">Create Account</a>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card rounded-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="fw-bold">Demo Accounts</h5>
+          <ul class="small mb-0">
+            <li>Student: <code>student@pediasense.ai</code> / <code>Student123!</code></li>
+            <li>Faculty: <code>faculty@pediasense.ai</code> / <code>Faculty123!</code></li>
+            <li>Manager: <code>manager@pediasense.ai</code> / <code>Manager123!</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-md-3"><div class="card h-100 rounded-4"><div class="card-body"><h5>Student</h5><p>Analyze cases and take quizzes.</p></div></div></div>
+  <div class="col-md-3"><div class="card h-100 rounded-4"><div class="card-body"><h5>Faculty</h5><p>View analytics, weak areas, and trends.</p></div></div></div>
+  <div class="col-md-3"><div class="card h-100 rounded-4"><div class="card-body"><h5>Manager</h5><p>Manage users and quiz content.</p></div></div></div>
+  <div class="col-md-3"><div class="card h-100 rounded-4"><div class="card-body"><h5>NANDA-aligned</h5><p>Diagnosis suggestions come from a curated library, not random web pages.</p></div></div></div>
+</div>
+{% endblock %}
