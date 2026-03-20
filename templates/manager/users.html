@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="fw-bold mb-4">Users</h2>
+<div class="card border-0 shadow-sm rounded-4">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Section</th>
+            <th>Program</th>
+            <th>Specialization</th>
+            <th>Contact</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td><span class="badge text-bg-dark">{{ user.role }}</span></td>
+            <td>{{ user.section or '-' }}</td>
+            <td>{{ user.program or '-' }}</td>
+            <td>{{ user.specialization or '-' }}</td>
+            <td>{{ user.contact_number or '-' }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="7" class="text-center text-muted">No users found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
