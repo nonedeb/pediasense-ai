@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PediaSense AI</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #f6f9ff;
+      --card: #ffffff;
+      --ink: #122033;
+      --muted: #5f6f86;
+      --line: #dce7f5;
+      --blue: #2563eb;
+      --teal: #0f766e;
+      --amber: #d97706;
+      --violet: #7c3aed;
+      --shadow: 0 12px 35px rgba(37, 99, 235, 0.08);
+      --radius: 24px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #f7fbff 0%, #f4f7ff 50%, #eef7ff 100%); color: var(--ink);
+    }
+    .container { width: min(1200px, calc(100% - 32px)); margin: 24px auto 48px; }
+    .hero { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 20px; margin-bottom: 20px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
+    .badges { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+    .badge { padding: 8px 12px; border-radius: 999px; background: #eff6ff; color: #1d4ed8; font-size: 12px; font-weight: 700; border: 1px solid #dbeafe; }
+    h1 { font-size: clamp(32px, 5vw, 52px); line-height: 1; margin: 0 0 12px; }
+    .subtext { color: var(--muted); line-height: 1.7; font-size: 16px; }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+    button { border: 0; border-radius: 16px; padding: 12px 16px; font-weight: 700; cursor: pointer; transition: 0.2s ease; }
+    .btn-primary { background: var(--blue); color: white; }
+    .btn-secondary { background: white; border: 1px solid var(--line); color: var(--ink); }
+    button:hover { transform: translateY(-1px); }
+    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+    .metric { border-radius: 22px; padding: 16px; border: 1px solid var(--line); }
+    .metric h3 { margin: 0; font-size: 28px; }
+    .blue { background: #eff6ff; } .teal { background: #f0fdfa; } .amber { background: #fff7ed; } .violet { background: #f5f3ff; }
+    .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0; }
+    .tab { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; cursor: pointer; font-weight: 700; }
+    .tab.active { background: #dbeafe; color: #1d4ed8; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+    .box { border: 1px solid var(--line); border-radius: 20px; padding: 16px; background: #fff; }
+    .small { font-size: 13px; color: var(--muted); }
+    input, textarea { width: 100%; border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; font: inherit; margin-bottom: 12px; }
+    textarea { min-height: 110px; resize: vertical; }
+    .result-item { border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px; margin-bottom: 10px; background: white; }
+    canvas { width: 100% !important; max-height: 300px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px; border-bottom: 1px solid var(--line); text-align: left; font-size: 14px; }
+    .workflow-step { border: 1px solid var(--line); border-radius: 18px; padding: 14px; background: white; }
+    @media (max-width: 980px) {
+      .hero, .grid-2, .grid-3, .grid-6 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <div class="card">
+        <div class="badges">
+          <div class="badge">Pediatric Nursing AI</div>
+          <div class="badge">NCM 109</div>
+          <div class="badge">Web + Cloud Database Ready</div>
+        </div>
+        <h1>PediaSense AI</h1>
+        <div class="subtext">A functional AI decision-support system for pediatric nursing education that helps students analyze cases, generate nursing suggestions, and gives faculty a dashboard for performance analytics and curriculum insights.</div>
+        <div class="btn-row">
+          <button class="btn-primary" onclick="showTab('student')">Launch Student Demo</button>
+          <button class="btn-secondary" onclick="showTab('faculty')">Open Faculty Dashboard</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="small">Prototype Snapshot</div>
+        <h2 style="margin-top:6px">Quick Metrics</h2>
+        <div class="metric-grid">
+          <div class="metric blue"><div class="small">Mode</div><h3>Web</h3></div>
+          <div class="metric teal"><div class="small">Database</div><h3>Cloud</h3></div>
+          <div class="metric amber"><div class="small">Use</div><h3>Academic</h3></div>
+          <div class="metric violet"><div class="small">Access</div><h3>Link-based</h3></div>
+        </div>
+        <div class="box" style="margin-top:12px;background:#f8fafc;">
+          <strong>Ethical Use Reminder</strong>
+          <div class="small" style="margin-top:6px">PediaSense AI supports learning and teaching. It does not replace instructor judgment, physician orders, or real clinical decision-making.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="diagrams" onclick="showTab('diagrams')">System Diagrams</button>
+      <button class="tab" data-tab="student" onclick="showTab('student')">Student UI</button>
+      <button class="tab" data-tab="faculty" onclick="showTab('faculty')">Faculty Dashboard</button>
+      <button class="tab" data-tab="cases" onclick="showTab('cases')">Case Library</button>
+    </div>
+
+    <section id="diagrams" class="panel active">
+      <div class="card">
+        <h2>System Architecture Diagram</h2>
+        <div class="grid-3">
+          <div class="box blue"><strong>Input Layer</strong><div class="small" style="margin-top:8px">Pediatric case data<br>Student answers<br>Quiz scores<br>Performance records</div></div>
+          <div class="box teal"><strong>Processing Layer</strong><div class="small" style="margin-top:8px">AI recommendation engine<br>Rule-based pediatric logic<br>Scoring and feedback module<br>Analytics engine</div></div>
+          <div class="box amber"><strong>Output Layer</strong><div class="small" style="margin-top:8px">Suggested diagnoses<br>Priority interventions<br>Expected outcomes + rationale<br>Faculty reports and analytics</div></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:20px;">
+        <h2>Workflow Diagram</h2>
+        <div class="grid-6">
+          <div class="workflow-step"><strong>1</strong><br><span class="small">Student logs in / opens app</span></div>
+          <div class="workflow-step"><strong>2</strong><br><span class="small">Enters pediatric case data</span></div>
+          <div class="workflow-step"><strong>3</strong><br><span class="small">AI analyzes findings</span></div>
+          <div class="workflow-step"><strong>4</strong><br><span class="small">System shows nursing suggestions</span></div>
+          <div class="workflow-step"><strong>5</strong><br><span class="small">Attempt is saved to cloud database</span></div>
+          <div class="workflow-step"><strong>6</strong><br><span class="small">Faculty views trends and weak areas</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="student" class="panel">
+      <div class="grid-2">
+        <div class="card">
+          <h2>Student Case Input</h2>
+          <input id="studentName" placeholder="Student name" value="Nandave Oida" />
+          <input id="age" placeholder="Age" value="2 years old" />
+          <input id="sex" placeholder="Sex" value="Male" />
+          <input id="chiefComplaint" placeholder="Chief complaint" value="Diarrhea and vomiting" />
+          <input id="vitals" placeholder="Vital signs" value="T 38.4°C | HR 128 bpm | RR 28 cpm" />
+          <textarea id="assessment" placeholder="Assessment findings">Dry lips, decreased urine output, lethargy, weak cry</textarea>
+          <textarea id="labs" placeholder="Laboratory findings">No labs entered</textarea>
+          <div class="btn-row">
+            <button class="btn-primary" onclick="analyzeCase()">Analyze Case</button>
+            <button class="btn-secondary" onclick="saveAttempt()">Save Attempt</button>
+          </div>
+          <div id="saveStatus" class="small" style="margin-top:10px"></div>
+        </div>
+        <div class="card">
+          <h2>AI-Supported Output</h2>
+          <div id="resultWrap" class="small">Run the case analysis to see results.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faculty" class="panel">
+      <div class="grid-3">
+        <div class="card"><div class="small">Class Average</div><h2 id="classAverage">--</h2></div>
+        <div class="card"><div class="small">Lowest Topic</div><h2 id="lowestTopic">--</h2><div class="small" id="lowestTopicAverage"></div></div>
+        <div class="card"><div class="small">Students Needing Support</div><h2 id="needsSupport">--</h2></div>
+      </div>
+      <div class="grid-2" style="margin-top:20px;">
+        <div class="card"><h2>Average Score by Topic</h2><canvas id="topicChart"></canvas></div>
+        <div class="card"><h2>Common Error Distribution</h2><canvas id="errorChart"></canvas></div>
+      </div>
+      <div class="card" style="margin-top:20px;">
+        <h2>Recent Attempts</h2>
+        <table>
+          <thead><tr><th>Student</th><th>Topic</th><th>Score</th><th>Created At</th></tr></thead>
+          <tbody id="recentAttempts"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="cases" class="panel">
+      <div class="card">
+        <h2>Case Library</h2>
+        <table>
+          <thead><tr><th>Title</th><th>Topic</th><th>Symptoms</th><th>Expected Diagnosis</th></tr></thead>
+          <tbody id="caseRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    let topicChart = null;
+    let errorChart = null;
+
+    function showTab(tabId) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+      if (tabId === 'faculty') loadFacultyDashboard();
+      if (tabId === 'cases') loadCases();
+    }
+
+    function getPayload() {
+      return {
+        studentName: document.getElementById('studentName').value,
+        age: document.getElementById('age').value,
+        sex: document.getElementById('sex').value,
+        chiefComplaint: document.getElementById('chiefComplaint').value,
+        vitals: document.getElementById('vitals').value,
+        assessment: document.getElementById('assessment').value,
+        labs: document.getElementById('labs').value,
+      };
+    }
+
+    function renderResult(data) {
+      document.getElementById('resultWrap').innerHTML = `
+        <div class="result-item"><strong>Topic:</strong> ${data.topic}</div>
+        <div class="result-item"><strong>Priority:</strong> ${data.priority}</div>
+        <div class="result-item"><strong>Score:</strong> ${data.score} (${data.scoreBand})</div>
+        <div class="result-item"><strong>Suggested Nursing Diagnoses</strong><br>${data.diagnoses.map(x => `• ${x}`).join('<br>')}</div>
+        <div class="result-item"><strong>Priority Interventions</strong><br>${data.interventions.map(x => `• ${x}`).join('<br>')}</div>
+        <div class="result-item"><strong>Expected Outcomes</strong><br>${data.outcomes.map(x => `• ${x}`).join('<br>')}</div>
+        <div class="result-item"><strong>Rationale</strong><br>${data.rationale}</div>
+      `;
+    }
+
+    async function analyzeCase() {
+      const response = await fetch('/api/analyze-case', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(getPayload())
+      });
+      const data = await response.json();
+      renderResult(data);
+    }
+
+    async function saveAttempt() {
+      const response = await fetch('/api/save-attempt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(getPayload())
+      });
+      const data = await response.json();
+      renderResult(data.analysis);
+      document.getElementById('saveStatus').textContent = data.message;
+    }
+
+    async function loadFacultyDashboard() {
+      const [summaryRes, topicsRes, errorsRes] = await Promise.all([
+        fetch('/api/dashboard/summary'),
+        fetch('/api/analytics/topics'),
+        fetch('/api/analytics/errors')
+      ]);
+      const summary = await summaryRes.json();
+      const topics = await topicsRes.json();
+      const errors = await errorsRes.json();
+
+      document.getElementById('classAverage').textContent = `${summary.classAverage}%`;
+      document.getElementById('lowestTopic').textContent = summary.lowestTopic;
+      document.getElementById('lowestTopicAverage').textContent = `Average: ${summary.lowestTopicAverage}%`;
+      document.getElementById('needsSupport').textContent = summary.studentsNeedingSupport;
+      document.getElementById('recentAttempts').innerHTML = summary.recentAttempts.map(item => `
+        <tr><td>${item.student_name}</td><td>${item.topic}</td><td>${item.score}</td><td>${item.created_at}</td></tr>
+      `).join('');
+
+      if (topicChart) topicChart.destroy();
+      topicChart = new Chart(document.getElementById('topicChart'), {
+        type: 'bar',
+        data: {
+          labels: topics.map(x => x.topic),
+          datasets: [{ label: 'Average Score', data: topics.map(x => x.avg_score) }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+
+      if (errorChart) errorChart.destroy();
+      errorChart = new Chart(document.getElementById('errorChart'), {
+        type: 'pie',
+        data: {
+          labels: errors.map(x => x.name),
+          datasets: [{ data: errors.map(x => x.value) }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+    }
+
+    async function loadCases() {
+      const response = await fetch('/api/cases');
+      const rows = await response.json();
+      document.getElementById('caseRows').innerHTML = rows.map(item => `
+        <tr><td>${item.title}</td><td>${item.topic}</td><td>${item.symptoms}</td><td>${item.expected_diagnosis}</td></tr>
+      `).join('');
+    }
+  </script>
+</body>
+</html>
